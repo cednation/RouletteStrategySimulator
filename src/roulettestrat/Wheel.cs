@@ -13,9 +13,9 @@ public enum SpinZero
     Double
 }
 
-public readonly struct SpinResult(SpinColor color, int number, SpinZero zeroType)
+public readonly struct SpinResult(int number, SpinZero zeroType = SpinZero.Single)
 {
-    public SpinColor Color { get; } = color;
+    public SpinColor Color { get; } = SpinColorStats.GetSpinColor(number);
     public int Number { get; } = number;
     public SpinZero ZeroType { get; } = zeroType;
     public static int HighestNumber => 36;
@@ -43,6 +43,8 @@ public class Wheel(IRandomGenerator randomGenerator, int maxHistory = 1000)
 {
     private readonly Queue<SpinResult> history = new(capacity: maxHistory);
 
+    public int RandomSeed => randomGenerator.Seed;
+
     public SpinResult Spin()
     {
         int spinNumber = randomGenerator.Next(0, SpinResult.HighestNumber + 1);
@@ -52,9 +54,8 @@ public class Wheel(IRandomGenerator randomGenerator, int maxHistory = 1000)
             spinNumber = 0;
             zeroType = SpinZero.Double;
         }
-        SpinColor spinColor = SpinColorStats.GetSpinColor(spinNumber);
-
-        SpinResult spinResult = new SpinResult(spinColor, spinNumber, zeroType);
+        
+        SpinResult spinResult = new SpinResult(spinNumber, zeroType);
         this.AddToHistory(spinResult);
 
         return spinResult;

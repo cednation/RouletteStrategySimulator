@@ -133,4 +133,24 @@ public class WheelTest
         int finalCapacity = wheel.GetHistoryQueueCapacity();
         initialCapacity.Should().Be(finalCapacity);
     }
+
+    [Fact]
+    public void Spin_LargeCapacityNotChange()
+    {
+        var mockGenerator = new Mock<IRandomGenerator>();
+        mockGenerator.Setup(r => r.Next(0, SpinResult.HighestNumber + 1)).Returns(12);
+
+        var wheel = new Wheel(mockGenerator.Object, maxHistory: 1000);
+        int initialCapacity = wheel.GetHistoryQueueCapacity();
+
+        // Spin 1000 times
+        for (int i = 0; i < 1000; i++)
+        {
+            wheel.Spin();
+        }
+
+        // Verify capacity
+        int finalCapacity = wheel.GetHistoryQueueCapacity();
+        initialCapacity.Should().Be(finalCapacity);
+    }
 }
