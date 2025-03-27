@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35913.81 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "roulettestrat", "roulettestrat.csproj", "{F91290B3-15DA-4FDC-B63C-3696951AB15E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "roulettestratTest", "..\roulettestratTest\roulettestratTest.csproj", "{BD57E06D-3846-4073-AE60-E3CC543C388F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F91290B3-15DA-4FDC-B63C-3696951AB15E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F91290B3-15DA-4FDC-B63C-3696951AB15E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F91290B3-15DA-4FDC-B63C-3696951AB15E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD57E06D-3846-4073-AE60-E3CC543C388F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD57E06D-3846-4073-AE60-E3CC543C388F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD57E06D-3846-4073-AE60-E3CC543C388F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD57E06D-3846-4073-AE60-E3CC543C388F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
