@@ -21,6 +21,24 @@ public readonly struct SpinResult(SpinColor color, int number, SpinZero zeroType
     public static int HighestNumber => 36;
 }
 
+public static class SpinColorStats
+{
+    public static int[] RedNumbers { get; } = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
+
+    public static int[] BlackNumbers { get; } = [2, 4, 6, 8, 10, 11, 13, 15, 17, 20, 22, 24, 26, 28, 29, 31, 33, 35];
+
+    public static SpinColor GetSpinColor(int number)
+    {
+        return number switch
+        {
+            0 => SpinColor.Green,
+            _ when RedNumbers.Contains(number) => SpinColor.Red,
+            _ when BlackNumbers.Contains(number) => SpinColor.Black,
+            _ => throw new ArgumentOutOfRangeException(nameof(number), number, "Number must be between 0-36")
+        };
+    }
+}
+
 public class Wheel(IRandomGenerator randomGenerator, int maxHistory = 1000)
 {
     private readonly Queue<SpinResult> history = new(capacity: maxHistory);
@@ -34,12 +52,7 @@ public class Wheel(IRandomGenerator randomGenerator, int maxHistory = 1000)
             spinNumber = 0;
             zeroType = SpinZero.Double;
         }
-        SpinColor spinColor = spinNumber switch
-        {
-            0 => SpinColor.Green,
-            _ when spinNumber % 2 == 0 => SpinColor.Red,
-            _ => SpinColor.Black
-        };
+        SpinColor spinColor = SpinColorStats.GetSpinColor(spinNumber);
 
         SpinResult spinResult = new SpinResult(spinColor, spinNumber, zeroType);
         this.AddToHistory(spinResult);

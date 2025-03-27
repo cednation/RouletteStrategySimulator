@@ -14,7 +14,7 @@ public class WheelTest
         mockGenerator.SetupSequence(r => r.Next(0, SpinResult.HighestNumber + 1))
             .Returns(0)
             .Returns(1)
-            .Returns(25)
+            .Returns(22)
             .Returns(SpinResult.HighestNumber)
             .Returns(SpinResult.HighestNumber + 1);
 
@@ -33,9 +33,9 @@ public class WheelTest
         spin1.ZeroType.Should().Be(SpinZero.Single);
 
         spin2.Number.Should().Be(1);
-        spin2.Color.Should().Be(SpinColor.Black);
+        spin2.Color.Should().Be(SpinColor.Red);
 
-        spin3.Number.Should().Be(25);
+        spin3.Number.Should().Be(22);
         spin3.Color.Should().Be(SpinColor.Black);
 
         spin4.Number.Should().Be(36);
