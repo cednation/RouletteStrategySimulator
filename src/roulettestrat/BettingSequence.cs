@@ -28,6 +28,8 @@ public class DoubleDozenBettingSequence(BankRoll bankRoll) : IBettingSequence
 
     public void SetSpinResult(SpinResult spin)
     {
+        if (this.currentBetIndex == -1) throw new InvalidOperationException("no bet has been created yet");
+
         if (this.currentBetHasSpinResult) throw new InvalidOperationException("current bet already has a spin result");
 
         var currentBet = this.bets[this.currentBetIndex];

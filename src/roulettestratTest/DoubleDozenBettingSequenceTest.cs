@@ -140,4 +140,14 @@ public class DoubleDozenBettingSequenceTest
         sequence.IsComplete.Should().BeTrue();
         sequence.SequenceTotalAmount.Should().Be(4);
     }
+
+    [Fact]
+    public void CannotSpinBeforeBet()
+    {
+        var bank = new BankRoll(2000);
+        var sequence = new DoubleDozenBettingSequence(bank);
+
+        Action act = () => sequence.SetSpinResult(new SpinResult(30));
+        act.Should().Throw<InvalidOperationException>();
+    }
 }

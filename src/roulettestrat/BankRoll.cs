@@ -22,6 +22,8 @@ public class BankRoll(int initialCash)
         this.Amount += amount;
     }
 
+    public int InitialBankRoll => initialCash;
+
     // We always bet in whole dollar amounts, no need to use decimals.
     public int Amount { get; private set; } = initialCash;
 }
