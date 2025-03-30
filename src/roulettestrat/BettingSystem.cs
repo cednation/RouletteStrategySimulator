@@ -13,6 +13,11 @@ public interface IBettingSystem
     void CreateNextBet(Func<int, IEnumerable<SpinResult>> getSpinHistoryFunc);
 }
 
+public interface IBettingSystemFactory
+{
+    IBettingSystem CreateBettingSystem(BankRoll bankRoll);
+}
+
 public class DoubleDozenBettingSystem(BankRoll bankRoll) : IBettingSystem
 {
     private const int requiredBankRoll = 1038;
@@ -68,6 +73,14 @@ public class DoubleDozenBettingSystem(BankRoll bankRoll) : IBettingSystem
 
         this.currentSequence.CreateNextBet(getSpinHistoryFunc);
         this.currentSequenceHasSpinResult = false;
+    }
+}
+
+public class DoubleDozenBettingSystemFactory : IBettingSystemFactory
+{
+    public IBettingSystem CreateBettingSystem(BankRoll bankRoll)
+    {
+        return new DoubleDozenBettingSystem(bankRoll);
     }
 }
 
