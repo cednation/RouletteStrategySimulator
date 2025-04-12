@@ -9,23 +9,36 @@ public class Simulator(BankRoll bankRoll, Wheel wheel, IBettingSystem bettingSys
 
     public void RunSimulation()
     {
-        while (true)
+        try
         {
-            if (this.spinCount > totalSpins)
+            while (true)
             {
-                bool stop = true;
-                if (!hardLimit) // Ask betting system if we can stop. If in a sequence we may continue a few more spins.
+                if (bettingSystem.ShouldEndEarly()) break;
+
+                if (this.spinCount > totalSpins)
                 {
-                    stop = bettingSystem.CanStopWheelNow();
+                    bool stop = true;
+                    if (!hardLimit) // Ask betting system if we can stop. If in a sequence we may continue a few more spins.
+                    {
+                        stop = bettingSystem.CanStopWheelNow();
+                    }
+
+                    if (stop) break;
                 }
 
-                if (stop) break;
+                bettingSystem.CreateNextBet(wheel.GetHistory);
+                var spinResult = wheel.Spin();
+                this.spinCount++;
+                bettingSystem.SetSpinResult(spinResult);
             }
-
-            bettingSystem.CreateNextBet(wheel.GetHistory);
-            var spinResult = wheel.Spin();
-            this.spinCount++;
-            bettingSystem.SetSpinResult(spinResult);
+        }
+        catch (BankRollTooLowForNewBettingSequenceException)
+        {
+            // Not enough money to continue. Stop the simulation.
+        }
+        catch (BankRollExceededException)
+        {
+            // Ran out of money to place a bet
         }
     }
 }

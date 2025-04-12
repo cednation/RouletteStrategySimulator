@@ -4,6 +4,8 @@ public interface IBettingSystem
 {
     IEnumerable<IBettingSequence> BettingSequences { get; }
 
+    bool ShouldEndEarly();
+
     bool CanStopWheelNow();
 
     int Winnings { get; } // Negative if lost money
@@ -28,6 +30,11 @@ public class DoubleDozenBettingSystem(BankRoll bankRoll) : IBettingSystem
     private int winningsOfCompleteSequences;
 
     public IEnumerable<IBettingSequence> BettingSequences => bettingSequences.AsReadOnly();
+
+    public bool ShouldEndEarly()
+    {
+        return this.currentSequence is { IsComplete: true } && this.winningsOfCompleteSequences > bankRoll.InitialBankRoll * 0.15;
+    }
 
     public bool CanStopWheelNow()
     {
