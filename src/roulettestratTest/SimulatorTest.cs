@@ -22,15 +22,21 @@ public class SimulatorTest
     {
         var winnings = new List<int>();
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 1; i <= 20; i++)
         {
-            var bankRoll = new BankRoll(2000);
-            var wheel = new Wheel(new RandomGenerator(i * 205));
-            var bettingSystem = new DoubleDozenBettingSystem(bankRoll);
+            var bankRoll = new BankRoll(3000);
+            var wheel = new Wheel(new RandomGenerator(i * 6));
+
+            // Spin the wheel an initial 10 times as the betting system needs an existing history to create its initial bet.
+            for (int j = 0; j < 10; j++) wheel.Spin();
+
+            var bettingSystem = new MilestoneReducingBettingSystem(bankRoll);
             var simulator = new Simulator(bankRoll, wheel, bettingSystem, 60, hardLimit: false); // playing for about an hour
 
             simulator.RunSimulation();
             winnings.Add(bettingSystem.Winnings);
+
+            // var wheelHistory = wheel.GetHistory(100).Select(x => x is { Number: 0, ZeroType: SpinZero.Double } ? 37 : x.Number).ToArray();
         }
 
         winnings.Count.Should().Be(20);
